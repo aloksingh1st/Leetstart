@@ -13,15 +13,12 @@ export const register = async (req, res) => {
 
     // validorhere
 
-
-
     try {
         const existingUser = await db.user.findUnique({
             where: {
                 email
             }
         })
-
 
         if (existingUser) {
             return res.status(400).json({
