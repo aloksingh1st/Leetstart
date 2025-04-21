@@ -28,10 +28,13 @@ export const register = async (req, res) => {
 
         const encryptedPassword = await bcrypt.hash(password, 10);
 
+        const verificationToken = crypto.randomBytes(32).toString("hex");
+
         const newUser = await db.user.create({
             data: {
                 name,
                 email,
+                verificationToken,
                 role: UserRole.USER,
                 password: encryptedPassword,
             }
@@ -74,8 +77,33 @@ export const register = async (req, res) => {
 
 
 
-export const verifyEmail = async (req, res) => {
+export const verifyUser = async (req, res) => {
 
+    const { token } = req.params;
+
+    try {
+
+        const user = db.user.findUnique({
+            verificationToken: token
+        })
+
+        if (!user) {
+            res.status(401).json({
+                error: "User Not Found 🤷"
+            })
+        }
+
+        user.isVerified = true;
+        user.verificationToken = undefined;
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+
+
+    } catch (error) {
+        res.status(500).json({
+            error: "User verification failed 😬"
+        });
+    }
 };
 
 
