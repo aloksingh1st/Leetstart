@@ -3,6 +3,7 @@ import { db } from "../libs/db.js"
 import { UserRole } from "../../generated/prisma/index.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { emailVerificationMailgenContent } from "../utils/mail.js";
 
 
 export const register = async (req, res) => {
@@ -40,24 +41,12 @@ export const register = async (req, res) => {
             }
         })
 
-
-        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
-            expiresIn: "7d",
-        })
-
-
-        const cookieOptions = {
-            httpOnly: true,
-            sameSite: "strict",
-            secure: process.env.NODE_ENV !== "development",
-            maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
-        }
-
-        res.cookie('jwt', token, cookieOptions);
+        const rootUrl = `${req.protocol}://${req.get('host')}/`
+        emailVerificationMailgenContent(user.newUser.name, rootUrl + verificationToken);
 
         res.status(201).json({
             success: true,
-            message: "User created successfully",
+            message: "User created successfully, Please verify to continue",
             user: {
                 id: newUser.id,
                 email: newUser.email,
@@ -76,16 +65,17 @@ export const register = async (req, res) => {
 };
 
 
-
 export const verifyUser = async (req, res) => {
 
     const { token } = req.params;
 
     try {
+        const user = await db.user.findUnique({
+            where: {
+                verificationToken: token
+            }
+        });
 
-        const user = db.user.findUnique({
-            verificationToken: token
-        })
 
         if (!user) {
             res.status(401).json({
@@ -93,11 +83,32 @@ export const verifyUser = async (req, res) => {
             })
         }
 
-        user.isVerified = true;
-        user.verificationToken = undefined;
-        user.passwordResetToken = undefined;
-        user.passwordResetExpires = undefined;
+        await db.user.update({
+            where: { id: user.id },
+            data: {
+                isVerified: true,
+                verificationToken: null,
+                passwordResetToken: null,
+                passwordResetExpires: null,
+            },
+        });
 
+
+        const JwtToken = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+        })
+
+
+        const cookieOptions = {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+        }
+
+        res.cookie('jwt', JwtToken, cookieOptions);
+
+        res.status(200).json({ message: "User verified successfully ✅" });
 
     } catch (error) {
         res.status(500).json({
@@ -108,6 +119,14 @@ export const verifyUser = async (req, res) => {
 
 
 export const resendVerificationMail = async (req, res) => {
+
+    const {email} = req.body;
+
+    try {
+        
+    } catch (error) {
+        
+    }
 
 };
 
