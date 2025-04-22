@@ -78,12 +78,11 @@ export const verifyUser = async (req, res) => {
     const { token } = req.params;
 
     try {
-        const user = await db.user.findUnique({
+        const user = await db.user.findFirst({
             where: {
                 verificationToken: token
             }
         });
-
 
         if (!user) {
             res.status(401).json({
@@ -102,7 +101,7 @@ export const verifyUser = async (req, res) => {
         });
 
 
-        const JwtToken = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+        const JwtToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: "7d",
         })
 
@@ -119,6 +118,8 @@ export const verifyUser = async (req, res) => {
         res.status(200).json({ message: "User verified successfully ✅" });
 
     } catch (error) {
+
+        console.log(error);
         res.status(500).json({
             error: "User verification failed 😬"
         });
