@@ -3,7 +3,8 @@ import { db } from "../libs/db.js"
 import { UserRole } from "../../generated/prisma/index.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { emailVerificationMailgenContent } from "../utils/mail.js";
+import crypto from "crypto";
+import { emailVerificationMailgenContent, sendEmail } from "../utils/mail.js";
 
 
 export const register = async (req, res) => {
@@ -31,6 +32,7 @@ export const register = async (req, res) => {
 
         const verificationToken = crypto.randomBytes(32).toString("hex");
 
+
         const newUser = await db.user.create({
             data: {
                 name,
@@ -42,7 +44,13 @@ export const register = async (req, res) => {
         })
 
         const rootUrl = `${req.protocol}://${req.get('host')}/`
-        emailVerificationMailgenContent(user.newUser.name, rootUrl + verificationToken);
+        const mailgenContent = emailVerificationMailgenContent(newUser.name, rootUrl + verificationToken);
+
+        sendEmail({
+            email: email,          // recipient's email
+            subject: "Verify your email address",  // subject line
+            mailgenContent                         // email body generated using Mailgen
+        });
 
         res.status(201).json({
             success: true,
@@ -120,12 +128,28 @@ export const verifyUser = async (req, res) => {
 
 export const resendVerificationMail = async (req, res) => {
 
-    const {email} = req.body;
-
+    const { email } = req.body;
     try {
-        
+
+        const user = db.user.findUnique({
+            where: {
+                email: email
+            }
+        });
+
+
+        if (!user) {
+            res.status(401).json({ error: "No user found with this email" })
+        }
+
+
+        const rootUrl = `${req.protocol}://${req.get('host')}/`
+        emailVerificationMailgenContent(user.newUser.name, rootUrl + verificationToken);
+
+
+
     } catch (error) {
-        
+
     }
 
 };
@@ -172,7 +196,7 @@ export const login = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "User Logged in successfully!!";
+            message: "User Logged in successfully!!",
             user: {
                 id: user.id,
                 name: user.name,
@@ -181,7 +205,6 @@ export const login = async (req, res) => {
                 image: user.image,
             }
         });
-
 
     } catch (error) {
 
