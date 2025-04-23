@@ -12,7 +12,6 @@ export const register = async (req, res) => {
 
     const { name, email, password, role } = req.body;
 
-
     // validorhere
 
     try {
@@ -115,7 +114,7 @@ export const verifyUser = async (req, res) => {
 
         res.cookie('jwt', JwtToken, cookieOptions);
 
-        res.status(200).json({ message: "User verified successfully ✅" });
+        res.status(200).json({ message: "User verified and logged in successfully  ✅" });
 
     } catch (error) {
 
@@ -144,13 +143,24 @@ export const resendVerificationMail = async (req, res) => {
         }
 
 
-        const rootUrl = `${req.protocol}://${req.get('host')}/`
-        emailVerificationMailgenContent(user.newUser.name, rootUrl + verificationToken);
+        const rootUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/`
+        const mailgen = emailVerificationMailgenContent(user.newUser.name, rootUrl + verificationToken);
+
+        sendEmail({
+            email: email,          // recipient's email
+            subject: "Verify your email address",  // subject line
+            mailgenContent                         // email body generated using Mailgen
+        });
 
 
+
+        res.status(200).json({ message: "Email resend successfully! ✅" });
 
     } catch (error) {
-
+        console.log(error);
+        res.status(500).json({
+            error: "User verification failed 😬"
+        });
     }
 
 };
@@ -243,6 +253,18 @@ export const logout = async (req, res) => {
 
 export const checkMe = async (req, res) => {
 
+    try {
+        res.status(200).json({
+            success: true,
+            message: "User authenticated successfully",
+            user: req.user
+        });
+    } catch (error) {
+        console.error("Error checking user:", error);
+        res.status(500).json({
+            error: "Error checking user"
+        })
+    }
 }
 
 
