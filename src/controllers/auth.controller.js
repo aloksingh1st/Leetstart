@@ -4,11 +4,18 @@ import { UserRole } from "../../generated/prisma/index.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+const { validationResult } = require('express-validator');
 import { emailVerificationMailgenContent, sendEmail } from "../utils/mail.js";
 
 
 export const register = async (req, res) => {
 
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
 
     const { name, email, password, role } = req.body;
 
@@ -167,6 +174,13 @@ export const resendVerificationMail = async (req, res) => {
 
 
 export const login = async (req, res) => {
+
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
 
     const { email, password } = req.body;
 
