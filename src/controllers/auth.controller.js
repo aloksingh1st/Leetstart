@@ -4,7 +4,7 @@ import { UserRole } from "../../generated/prisma/index.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-const { validationResult } = require('express-validator');
+import { validationResult } from 'express-validator';
 import { emailVerificationMailgenContent, sendEmail } from "../utils/mail.js";
 
 
