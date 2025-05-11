@@ -175,7 +175,7 @@ export const createProblem = async (req, res) => {
 
         return res.status(201).json({
             sucess: true,
-            message: "Message Created Successfully",
+            message: "Problem Created Successfully",
             problem: newProblem,
         });
     } catch (error) {
@@ -278,7 +278,7 @@ export const getAllProblems = async (req, res) => {
 
         res.status(200).json({
             sucess: true,
-            message: "Message Fetched Successfully",
+            message: "Problems fetched succesfully",
             problems,
         });
     } catch (error) {
@@ -392,18 +392,43 @@ export const getProblemById = async (req, res) => {
 
         return res.status(200).json({
             sucess: true,
-            message: "Message Created Successfully",
+            message: "Problem Fetched Successfully",
             problem,
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            error: "Error While Fetching Problem by id",
+            error: "Error While Fetching Problem with id",
         });
     }
 };
 
 export const deleteProblem = async (req, res) => {
+
+    const { id } = req.params;
+
+
+    try {
+        const deletedProblem = db.problem.delete({
+            where: {
+                id,
+            }
+        });
+
+
+        if (deleteProblem) {
+            res.status(200).json({
+                sucess: true,
+                message: "Problem deleted successfully!!!",
+                deleteProblem,
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            error: "Error Deleting Problem by id",
+        });
+    }
 };
 
 export const getAllProblemsSolvedByUser = async (req, res) => {
