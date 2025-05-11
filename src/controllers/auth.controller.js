@@ -7,7 +7,45 @@ import crypto from "crypto";
 import { validationResult } from 'express-validator';
 import { emailVerificationMailgenContent, sendEmail } from "../utils/mail.js";
 
-
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *               - role
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *               email:
+ *                 type: string
+ *                 example: johndoe@example.com
+ *               password:
+ *                 type: string
+ *                 example: mySecurePassword123
+ *               role:
+ *                 type: string
+ *                 enum: [USER, ADMIN]
+ *                 example: USER
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       400:
+ *         description: User already exists or validation error
+ *       500:
+ *         description: Server error
+ */
 export const register = async (req, res) => {
 
 
@@ -75,6 +113,30 @@ export const register = async (req, res) => {
         })
     }
 };
+
+
+/**
+ * @swagger
+ * /api/auth/verify/{token}:
+ *   get:
+ *     summary: Verify a user's email using a token
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         description: The verification token sent to the user's email
+ *         schema:
+ *           type: string
+ *           example: "random-verification-token-here"
+ *     responses:
+ *       200:
+ *         description: User verified successfully and logged in
+ *       401:
+ *         description: User not found or invalid token
+ *       500:
+ *         description: Internal server error
+ */
 
 
 export const verifyUser = async (req, res) => {
@@ -159,6 +221,32 @@ export const dummyMail = async (req, res) => {
     res.status(200).json({ message: "Email resend successfully! ✅" });
 }
 
+/**
+ * @swagger
+ * /api/auth/resend-verification:
+ *   post:
+ *     summary: Resend the verification email to the user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "johndoe@example.com"
+ *     responses:
+ *       200:
+ *         description: Verification email sent successfully
+ *       401:
+ *         description: No user found with the provided email
+ *       500:
+ *         description: Internal server error
+ */
+
 export const resendVerificationMail = async (req, res) => {
 
     const { email } = req.body;
@@ -198,6 +286,65 @@ export const resendVerificationMail = async (req, res) => {
 };
 
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Log in a user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "johndoe@example.com"
+ *               password:
+ *                 type: string
+ *                 example: "mySecurePassword123"
+ *     responses:
+ *       200:
+ *         description: User logged in successfully and JWT token returned
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "User Logged in successfully!!"
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: "John Doe"
+ *                     email:
+ *                       type: string
+ *                       example: "johndoe@example.com"
+ *                     role:
+ *                       type: string
+ *                       example: "USER"
+ *                     image:
+ *                       type: string
+ *                       example: "user-image.jpg"
+ *       400:
+ *         description: Bad request, validation errors or missing fields
+ *       401:
+ *         description: Unauthorized, invalid credentials or user not found
+ *       500:
+ *         description: Internal server error
+ */
 export const login = async (req, res) => {
 
 
@@ -268,6 +415,20 @@ export const login = async (req, res) => {
 
 
 
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Log out the user by clearing the JWT cookie
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: User logged out successfully
+ *       500:
+ *         description: Internal server error
+ */
+
+
 export const logout = async (req, res) => {
 
     try {
@@ -288,6 +449,50 @@ export const logout = async (req, res) => {
         })
     }
 };
+
+
+
+/**
+ * @swagger
+ * /api/auth/check-me:
+ *   get:
+ *     summary: Check if the user is authenticated
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: User authenticated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "User authenticated successfully"
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: "John Doe"
+ *                     email:
+ *                       type: string
+ *                       example: "johndoe@example.com"
+ *                     role:
+ *                       type: string
+ *                       example: "USER"
+ *                     image:
+ *                       type: string
+ *                       example: "user-image.jpg"
+ *       500:
+ *         description: Internal server error
+ */
 
 
 export const checkMe = async (req, res) => {

@@ -1,23 +1,21 @@
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-// Swagger configuration
 const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'My API Docs',
-            version: '1.0.0',
-            description: 'API documentation for user authentication and more',
-        },
-        servers: [
-            {
-                url: 'http://localhost:8000',
-            },
-        ],
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'LeetHub API',
+      version: '1.0.0',
+      description: 'API documentation for LeetHub project',
     },
-    apis: ['../controllers/*.js'],
-
+    servers: [
+      {
+        url: 'http://localhost:8000',
+      },
+    ],
+  },
+  apis: ['./src/controllers/*.js', './src/routes/*.js'], // <-- key fix
 };
 
 const swaggerSpec = swaggerJsDoc(options);
