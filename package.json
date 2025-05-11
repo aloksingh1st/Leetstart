@@ -21,7 +21,9 @@
     "jsonwebtoken": "^9.0.2",
     "mailgen": "^2.0.29",
     "nodemailer": "^6.10.1",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "prisma": "^6.7.0"
