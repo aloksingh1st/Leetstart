@@ -16,5 +16,5 @@ export const registerValidator = [
 
     body('role')
         .optional()
-        .isIn(['user', 'admin']).withMessage('Invalid role'),
+        .isIn(['USER', 'ADMIN']).withMessage('Invalid role'),
 ];

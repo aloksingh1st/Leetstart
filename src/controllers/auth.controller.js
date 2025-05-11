@@ -19,8 +19,6 @@ export const register = async (req, res) => {
 
     const { name, email, password, role } = req.body;
 
-    // validorhere
-
     try {
         const existingUser = await db.user.findUnique({
             where: {
@@ -133,6 +131,34 @@ export const verifyUser = async (req, res) => {
 };
 
 
+export const dummyMail = async (req, res) => {
+
+    const mailgen = emailVerificationMailgenContent("ALOK", "localhost:8000/verification-token");
+
+    await sendEmail({
+        email: 'recipient@example.com',
+        subject: 'Welcome to Task Manager',
+        mailgenContent: {
+            body: {
+                name: 'John Doe',
+                intro: 'Welcome to Task Manager! We’re very excited to have you on board.',
+                action: {
+                    instructions: 'To get started with Task Manager, please click here:',
+                    button: {
+                        color: '#22BC66',
+                        text: 'Confirm your account',
+                        link: 'https://taskmanager.app/confirm?token=abc123',
+                    },
+                },
+                outro: 'Need help? Just reply to this email.',
+            },
+        },
+    });
+
+
+    res.status(200).json({ message: "Email resend successfully! ✅" });
+}
+
 export const resendVerificationMail = async (req, res) => {
 
     const { email } = req.body;
@@ -149,14 +175,13 @@ export const resendVerificationMail = async (req, res) => {
             res.status(401).json({ error: "No user found with this email" })
         }
 
-
         const rootUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/`
         const mailgen = emailVerificationMailgenContent(user.newUser.name, rootUrl + verificationToken);
 
         sendEmail({
-            email: email,          // recipient's email
-            subject: "Verify your email address",  // subject line
-            mailgenContent                         // email body generated using Mailgen
+            email: email,
+            subject: "Verify your email address",
+            mailgenContent
         });
 
 

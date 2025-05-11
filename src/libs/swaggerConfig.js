@@ -16,7 +16,7 @@ const options = {
             },
         ],
     },
-    apis: ['./routes/auth.js'] // to test if it’s being picked
+    apis: ['../controllers/*.js'],
 
 };
 
