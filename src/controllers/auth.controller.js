@@ -9,7 +9,7 @@ import { emailVerificationMailgenContent, sendEmail } from "../utils/mail.js";
 
 /**
  * @swagger
- * /api/auth/register:
+ * /api/v1/auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Auth]
@@ -117,7 +117,7 @@ export const register = async (req, res) => {
 
 /**
  * @swagger
- * /api/auth/verify/{token}:
+ * /api/v1/auth/verify/{token}:
  *   get:
  *     summary: Verify a user's email using a token
  *     tags: [Auth]
@@ -223,7 +223,7 @@ export const dummyMail = async (req, res) => {
 
 /**
  * @swagger
- * /api/auth/resend-verification:
+ * /api/v1/auth/resend-verification:
  *   post:
  *     summary: Resend the verification email to the user
  *     tags: [Auth]
@@ -263,7 +263,7 @@ export const resendVerificationMail = async (req, res) => {
             res.status(401).json({ error: "No user found with this email" })
         }
 
-        const rootUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/`
+        const rootUrl = `${req.protocol}://${req.get('host')}/api/v1/v1/auth/`
         const mailgen = emailVerificationMailgenContent(user.newUser.name, rootUrl + verificationToken);
 
         sendEmail({
@@ -288,7 +288,7 @@ export const resendVerificationMail = async (req, res) => {
 
 /**
  * @swagger
- * /api/auth/login:
+ * /api/v1/auth/login:
  *   post:
  *     summary: Log in a user
  *     tags: [Auth]
@@ -417,7 +417,7 @@ export const login = async (req, res) => {
 
 /**
  * @swagger
- * /api/auth/logout:
+ * /api/v1/auth/logout:
  *   post:
  *     summary: Log out the user by clearing the JWT cookie
  *     tags: [Auth]
@@ -454,7 +454,7 @@ export const logout = async (req, res) => {
 
 /**
  * @swagger
- * /api/auth/check-me:
+ * /api/v1/auth/check-me:
  *   get:
  *     summary: Check if the user is authenticated
  *     tags: [Auth]
