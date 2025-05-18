@@ -454,7 +454,7 @@ export const logout = async (req, res) => {
 
 /**
  * @swagger
- * /api/v1/auth/check-me:
+ * /api/v1/auth/checkme:
  *   get:
  *     summary: Check if the user is authenticated
  *     tags: [Auth]
