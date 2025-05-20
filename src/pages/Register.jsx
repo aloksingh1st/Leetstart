@@ -3,6 +3,8 @@ import codingImg from '../assets/coding.png';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useAuthStore } from "../store/useAuthStore";
+import { Link } from 'react-router-dom';
 
 
 const SignUpSchema = z.object({
@@ -13,6 +15,20 @@ const SignUpSchema = z.object({
 
 const Register = () => {
 
+
+
+    const { signup, isSigninUp } = useAuthStore();
+
+
+    const onSubmit = async (data) => {
+
+        try {
+            await signup(data); // your auth logic here
+            console.log("SignUp Data:", data);
+        } catch (error) {
+            console.error("SignUp failed:", error);
+        }
+    };
 
     const {
         register,
@@ -97,17 +113,25 @@ const Register = () => {
                             <button
                                 type="submit"
                                 className="btn w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full transition duration-200"
+                                disabled={isSigninUp}
                             >
-                                Register
+                                {isSigninUp ? (
+                                    <>
+                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                        Loading...
+                                    </>
+                                ) : (
+                                    "Sign Up"
+                                )}
                             </button>
                         </div>
 
                         {/* Footer */}
                         <div className="pt-6 text-center text-sm text-base-content/50">
                             Already have an account?{' '}
-                            <a href="/login" className="text-blue-400 hover:underline">
+                            <Link to="/login" className="text-blue-400 hover:underline">
                                 Sign in
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
