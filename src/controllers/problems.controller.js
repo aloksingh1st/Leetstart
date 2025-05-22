@@ -26,7 +26,7 @@ import {
  *               - title
  *               - description
  *               - difficulty
- *               - testcases
+ *               - testcases : testCases
  *               - referenceSolutions
  *             properties:
  *               title:
@@ -60,7 +60,7 @@ import {
  *                 items:
  *                   type: string
  *                 example: ["2 <= nums.length <= 10^4", "-10^9 <= nums[i] <= 10^9"]
- *               testcases:
+ *               testcases : testCases:
  *                 type: array
  *                 items:
  *                   type: object
@@ -113,7 +113,7 @@ export const createProblem = async (req, res) => {
         tags,
         examples,
         constraints,
-        testcases,
+        testCases: testCases,
         codeSnippets,
         referenceSolutions,
     } = req.body;
@@ -130,8 +130,11 @@ export const createProblem = async (req, res) => {
                     .json({ error: `Language ${language} is not supported` });
             }
 
+
+
+            console.log(req.body);
             //
-            const submissions = testcases.map(({ input, output }) => ({
+            const submissions = testCases.map(({ input, output }) => ({
                 source_code: solutionCode,
                 language_id: languageId,
                 stdin: input,
@@ -139,6 +142,8 @@ export const createProblem = async (req, res) => {
             }));
 
             const submissionResults = await submitBatch(submissions);
+
+            console.log(submissionResults);
 
             const tokens = submissionResults.map((res) => res.token);
 
@@ -166,7 +171,7 @@ export const createProblem = async (req, res) => {
                 tags,
                 examples,
                 constraints,
-                testcases,
+                testcases: testCases,
                 codeSnippets,
                 referenceSolutions,
                 userId: req.user.id,
@@ -237,7 +242,7 @@ export const createProblem = async (req, res) => {
  *                       constraints:
  *                         type: string
  *                         example: "Input size should be less than 1000."
- *                       testcases:
+ *                       testcases : testCases:
  *                         type: array
  *                         items:
  *                           type: object
@@ -347,7 +352,7 @@ export const getAllProblems = async (req, res) => {
  *                     constraints:
  *                       type: string
  *                       example: "Input size should be less than 1000."
- *                     testcases:
+ *                     testcases : testCases:
  *                       type: array
  *                       items:
  *                         type: object

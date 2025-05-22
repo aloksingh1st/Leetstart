@@ -1,5 +1,6 @@
 import { json } from "express";
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { swaggerUi, swaggerSpec } from './libs/swaggerConfig.js';
@@ -15,6 +16,13 @@ const app = express();
 dotenv.config();
 app.use(json());
 app.use(cookieParser());
+
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
