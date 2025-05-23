@@ -1,0 +1,15 @@
+.scrollable-div {
+  overflow-y: scroll; /* Allows vertical scrolling */
+  height: 100vh; /* Makes it fill the entire viewport height */
+  flex-grow: 1; /* Ensures it takes the remaining space in the flex container */
+}
+
+/* Hide scrollbar */
+.scrollable-div::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar in WebKit browsers (Chrome, Safari, etc.) */
+}
+
+.scrollable-div {
+  -ms-overflow-style: none; /* Hides the scrollbar in IE and Edge */
+  scrollbar-width: none; /* Hides the scrollbar in Firefox */
+}
