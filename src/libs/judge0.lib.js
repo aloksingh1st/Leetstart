@@ -51,6 +51,7 @@ export function getLanguageName(languageId) {
         63: "JavaScript",
         71: "Python",
         62: "Java",
+        76: "Cpp",
     }
 
     return LANGUAGE_NAMES[languageId] || "Unknown"
