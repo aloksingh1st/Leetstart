@@ -5,7 +5,6 @@ import PlaylistCard from '../components/PlaylistCard'
 import Calendar from '../components/Calendar'
 import { useProblemStore } from '../store/useProblemStore'
 import { Loader } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 
 
 const ProblemList = () => {

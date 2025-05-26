@@ -9,6 +9,7 @@ const ProblemCard = ({ firstRender = false, title, tags, difficulty, problemId }
   const handleClick = (id) => {
     navigate(`/problem/${id}`);
   };
+  
   return (
     <>
       <ul className="list bg-base-100 rounded-box shadow-md mb-2" onClick={() => handleClick(problemId)}>

@@ -13,3 +13,12 @@
   -ms-overflow-style: none; /* Hides the scrollbar in IE and Edge */
   scrollbar-width: none; /* Hides the scrollbar in Firefox */
 }
+
+@keyframes fogMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}

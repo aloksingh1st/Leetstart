@@ -7,6 +7,8 @@ import { useAuthStore } from "../store/useAuthStore";
 import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Eye, EyeOff, Loader2, Mail, User } from 'lucide-react';
+import { motion } from "framer-motion";
+
 
 const SignUpSchema = z
     .object({
@@ -207,14 +209,41 @@ const Register = () => {
                 </div>
 
                 {/* Right Section – Info */}
-                <div className="hidden lg:flex flex-col justify-center items-start p-10 sm:w-1/2 max-w-xl z-10">
-                    <img src="/logo.svg" alt="Logo" className="mb-5 w-16" />
-                    <h1 className="text-4xl font-bold mb-4 leading-tight text-amber-50 dark:text-white">Create your account</h1>
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="hidden lg:flex flex-col justify-center items-start p-10 sm:w-1/2 max-w-xl z-10"
+                >
+                    {/* <motion.img
+                        src="/logo.svg"
+                        alt="Logo"
+                        className="mb-5 w-16"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3, duration: 0.6 }}
+                    /> */}
 
-                    <p className="text-[#D3D3D3] dark:text-white/80 text-sm">
-                        Join our community and start exploring features made just for you. Connect, learn, and grow in a space that supports your journey.
-                    </p>
-                </div>
+                    <motion.h1
+                        className="text-4xl font-bold mb-4 leading-tight text-amber-50 dark:text-white"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.7 }}
+                    >
+                        Join <span className='text-accent'> LeetStart </span> – Level Up Your Problem Solving
+                    </motion.h1>
+
+                    <motion.p
+                        className="text-[#D3D3D3] dark:text-white/80 text-sm"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.7 }}
+                    >
+                        Create your free account to access curated coding problems, detailed solutions, and interactive editor support.
+                        Track your progress. Sharpen your skills. Crack your next interview.
+                    </motion.p>
+                </motion.div>
+
             </div>
 
         </div>

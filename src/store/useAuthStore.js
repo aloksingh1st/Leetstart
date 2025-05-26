@@ -8,12 +8,13 @@ export const useAuthStore = create((set) => ({
     isLoggingIn: false,
     isCheckingAuth: false,
 
-    // ✅ Check current auth status
     checkAuth: async () => {
         set({ isCheckingAuth: true });
 
-        console.log("1");
         try {
+
+
+            // const res = await axiosInstance.post("/auth/logout");
             const res = await axiosInstance.get("/auth/checkme");
             console.log("✅ checkAuth response:", res.data);
 

@@ -1,11 +1,18 @@
 import React from 'react'
 import ThemeController from './ThemeController'
+import { useAuthStore } from "../store/useAuthStore.js";
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+    const { authUser, logout } = useAuthStore();
+
+
+    const callLogout = () => {
+        logout();
+    }
 
     return (
         <div className="navbar bg-base-100 shadow-sm dark:shadow-none dark:drop-shadow-[0_2px_4px_rgba(255,255,255,0.05)]">
-
 
             <div className="navbar-start">
                 <div className="dropdown">
@@ -17,14 +24,14 @@ const Navbar = () => {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow-lg">
-                        <li><a className="text-base-content hover:text-blue-400">Homepage</a></li>
-                        <li><a className="text-base-content hover:text-blue-400">Portfolio</a></li>
-                        <li><a className="text-base-content hover:text-blue-400">About</a></li>
+                        <li><Link to="/problems" className="text-base-content hover:text-blue-400">Problems</Link></li>
+                        <li><Link to="/playlists" className="text-base-content hover:text-blue-400">Playlists</Link></li>
+                        {/* <li><a className="text-base-content hover:text-blue-400">About</a></li> */}
                     </ul>
                 </div>
             </div>
             <div className="navbar-center">
-                <a className="btn btn-ghost text-xl text-base-content">daisyUI</a>
+                <a className="btn btn-ghost text-xl text-base-content">LeetStart</a>
             </div>
 
             <div className="navbar-end">
@@ -36,11 +43,16 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a>Profile</a></li>
-                        <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
-                    </ul>
+
+                    {
+
+                        authUser &&
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Profile</a></li>
+                            <li><a>Settings</a></li>
+                            <li><a onClick={callLogout}>Logout</a></li>
+                        </ul>
+                    }
                 </div>
 
             </div>
