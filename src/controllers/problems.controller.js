@@ -86,10 +86,12 @@ export const createProblem = async (req, res) => {
         tags,
         examples,
         constraints,
-        testCases: testCases,
         codeSnippets,
         referenceSolutions,
     } = req.body;
+
+    // Accept both `testCases` and `testcases`
+    const testCases = req.body.testCases || req.body.testcases || [];
 
     // going to check the user role once again
 
@@ -104,8 +106,6 @@ export const createProblem = async (req, res) => {
             }
 
 
-
-            console.log(req.body);
             //
             const submissions = testCases.map(({ input, output }) => ({
                 source_code: solutionCode,
@@ -136,6 +136,9 @@ export const createProblem = async (req, res) => {
             }
         }
 
+
+        console.log(testCases);
+
         const newProblem = await db.problem.create({
             data: {
                 title,
@@ -144,7 +147,7 @@ export const createProblem = async (req, res) => {
                 tags,
                 examples,
                 constraints,
-                testcases: testCases,
+                testCases,
                 codeSnippets,
                 referenceSolutions,
                 userId: req.user.id,

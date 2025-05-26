@@ -144,9 +144,11 @@ export const executeCode = async (req, res) => {
 
         // 💾 6. Store submission summary
 
+        let submission = null;
+
         if (isSubmission) {
 
-            const submission = await db.submission.create({
+            submission = await db.submission.create({
                 data: {
                     userId,
                     problemId,
@@ -183,10 +185,11 @@ export const executeCode = async (req, res) => {
         }
 
         // 📁 8. Save individual test case results using detailedResults directly
-        const testCaseResults = detailedResults.map((result) => ({
+        const testCaseResults = detailedResults.map((result, idx) => ({
             submissionId: isSubmission ? submission?.id : null,
             testCase: result.testCase,
             passed: result.passed,
+            stdin: stdin[idx],
             stdout: result.stdout,
             expected: result.expected,
             stderr: result.stderr,
@@ -197,11 +200,13 @@ export const executeCode = async (req, res) => {
         }));
 
 
+        let submissionWithTestCases = null;
+
         if (isSubmission) {
-            await db.testCaseResult.createMany({ data: testCaseResults });
+            await db.testCaseResult.createMany({ data:  testCaseResults.map(({ stdin, ...rest }) => rest) });
 
             // 🔍 9. Fetch full submission with test cases
-            const submissionWithTestCases = await db.submission.findUnique({
+            submissionWithTestCases = await db.submission.findUnique({
                 where: { id: submission.id },
                 include: { testCases: true },
             });
@@ -213,8 +218,11 @@ export const executeCode = async (req, res) => {
             message: 'Code executed successfully',
             submission: isSubmission ? submissionWithTestCases : testCaseResults,
         });
+
     } catch (error) {
-        console.error('Error executing code:', error.message);
+        const stack = error.stack || '';
+        const lineInfo = stack.split('\n')[1] || 'Line info not available';
+        console.error('Error executing code:', error.message, '\nAt:', lineInfo);
         res.status(500).json({ error: 'Failed to execute code' });
     }
 };
