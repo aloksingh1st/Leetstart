@@ -1,58 +1,49 @@
-import React from 'react'
+import React from "react";
 
 const Sidebar = () => {
     return (
-        <>
-            <ul className="list bg-base-100 rounded-box shadow-md lg:h-[90vh] mt-2 mr-2">
+        <ul className="list bg-base-100 rounded-box shadow-md lg:h-[90vh] mt-2 mr-2">
+            <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">My Lists</li>
 
-                <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">Most played songs this week</li>
-
-                <li className="list-row">
-                    <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp" /></div>
-                    <div>
-                        <div>Dio Lupa</div>
-                        <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div>
+            {/* List Item 1 */}
+            <li className="list-row flex items-center justify-between p-4">
+                <div className="flex items-center">
+                    <img
+                        className="w-10 h-10 rounded-full"
+                        src="https://img.daisyui.com/images/profile/demo/1@94.webp"
+                        alt="Profile"
+                    />
+                    <div className="ml-4">
+                        <div className="font-medium">Two Sum</div>
+                        {/* <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div> */}
                     </div>
-                    <button className="btn btn-square btn-ghost">
-                        <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
-                    </button>
-                    <button className="btn btn-square btn-ghost">
-                        <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></g></svg>
-                    </button>
-                </li>
+                </div>
+                <div className="flex space-x-2">
+                    <button className="btn btn-square btn-ghost">Easy</button>
+                    <button className="btn btn-square btn-ghost">...</button>
+                </div>
+            </li>
 
-                <li className="list-row">
-                    <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/4@94.webp" /></div>
-                    <div>
-                        <div>Ellie Beilish</div>
-                        <div className="text-xs uppercase font-semibold opacity-60">Bears of a fever</div>
+            {/* List Item 2 */}
+            <li className="list-row flex items-center justify-between p-4">
+                <div className="flex items-center">
+                    <img
+                        className="w-10 h-10 rounded-full"
+                        src="https://img.daisyui.com/images/profile/demo/1@94.webp"
+                        alt="Profile"
+                    />
+                    <div className="ml-4">
+                        <div className="font-medium">Two Sum</div>
+                        {/* <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div> */}
                     </div>
-                    <button className="btn btn-square btn-ghost">
-                        <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
-                    </button>
-                    <button className="btn btn-square btn-ghost">
-                        <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></g></svg>
-                    </button>
-                </li>
+                </div>
+                <div className="flex space-x-2">
+                    <button className="btn btn-square btn-ghost">Easy</button>
+                    <button className="btn btn-square btn-ghost">...</button>
+                </div>
+            </li>
+        </ul>
+    );
+};
 
-                <li className="list-row">
-                    <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp" /></div>
-                    <div>
-                        <div>Sabrino Gardener</div>
-                        <div className="text-xs uppercase font-semibold opacity-60">Cappuccino</div>
-                    </div>
-                    <button className="btn btn-square btn-ghost">
-                        <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
-                    </button>
-                    <button className="btn btn-square btn-ghost">
-                        <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></g></svg>
-                    </button>
-                </li>
-
-            </ul>
-
-        </>
-    )
-}
-
-export default Sidebar
+export default Sidebar;

@@ -366,7 +366,7 @@ const InsertionAtHeadPage = () => {
         <div className="p-6 bg-base-100 min-h-screen">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-                <button className="btn btn-ghost text-lg font-bold" onClick={() => navigate('/')}>← Problem List</button>
+                <button className="btn btn-ghost text-lg font-bold" onClick={() => navigate('/problems')}>← Problem List</button>
                 <div className="flex items-center gap-3">
                     <span className={`badge text-white text-xs ${difficultyBadge["Easy"] || "badge-neutral"}`}>
                         Easy

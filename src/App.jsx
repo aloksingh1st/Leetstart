@@ -15,6 +15,7 @@ import CreateProblemPage from './pages/CreateProblemPage';
 import ProblemDetailPage from './pages/ProblemDetailPage';
 import Landing from './pages/Landing';
 import AnimatedPage from './components/AnimatePage';
+import Landing2 from './pages/Landing2';
 
 function App() {
 
@@ -39,18 +40,19 @@ function App() {
       <Toaster />
       <AnimatePresence mode="wait">
         <Routes>
-          {/* Public */}
-          <Route path="/signup" element={!authUser ? <Register /> : <Navigate to="/" />} />
-          <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/" />} />
+          {/* Public Routes */}
+          <Route path="/signup" element={!authUser ? <Register /> : <Navigate to="/problems" />} />
+          <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/problems" />} />
+          <Route path="/" element={<AnimatedPage><Landing2 /></AnimatedPage>} />
 
-          {/* Protected */}
+          {/* Protected Routes */}
           <Route path="/" element={authUser ? <Layout /> : <Navigate to="/login" />}>
-            <Route index element={<AnimatedPage><Landing /></AnimatedPage>} />
             <Route path="problems" element={<AnimatedPage><ProblemList /></AnimatedPage>} />
             <Route path="problem/:id" element={<AnimatedPage><ProblemDetailPage /></AnimatedPage>} />
             <Route path="createProblem" element={<AnimatedPage><CreateProblemPage /></AnimatedPage>} />
           </Route>
 
+          {/* Catch-All Route */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </AnimatePresence>

@@ -31,21 +31,25 @@ const ProblemList = () => {
 
         <Sidebar />
 
+        {console.log(problems)}
+
         <div className='scrollable-div overflow-y-auto h-[100vh] lg:h-full flex-grow'>
-          <div className='flex  flex-col lg:flex-row justify-center'>
+          {/* <div className='flex  flex-col lg:flex-row justify-center'>
             <PlaylistCard />
             <PlaylistCard />
             <PlaylistCard />
-          </div>
-          {
-            problems && problems.map((problem, index) => {
-              return (
-                <>
-                  <ProblemCard key={problem.id} firstRender={index === 0} title={problem.title} tags={problem.tags} difficulty={problem.difficulty} problemId={problem.id} />
-                </>
-              )
-            })
-          }
+          </div> */}
+          {problems && problems.map((problem, index) => (
+            <ProblemCard
+              firstRender={index == 0}
+              key={problem.id}
+              problemId={problem.id}
+              title={problem.title}
+              tags={problem.tags}
+              difficulty={problem.difficulty}
+              completion={problem.completion || 0} // default to 0% if undefined
+            />
+          ))}
         </div>
 
         <Calendar />
