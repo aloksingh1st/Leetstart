@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import ProblemCard from '../components/ProblemCard'
 import Sidebar from '../components/Sidebar'
-import PlaylistCard from '../components/PlaylistCard'
 import Calendar from '../components/Calendar'
 import { useProblemStore } from '../store/useProblemStore'
 import { Loader } from 'lucide-react'
@@ -11,10 +10,10 @@ const ProblemList = () => {
 
   const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
 
+
   useEffect(() => {
     getAllProblems();
   }, [getAllProblems]);
-
 
   if (isProblemsLoading) {
     return (
@@ -24,21 +23,13 @@ const ProblemList = () => {
     );
   }
 
-
   return (
     <>
       <div className='flex flex-col lg:flex-row lg:h-screen'>
 
         <Sidebar />
 
-        {console.log(problems)}
-
-        <div className='scrollable-div overflow-y-auto h-[100vh] lg:h-full flex-grow'>
-          {/* <div className='flex  flex-col lg:flex-row justify-center'>
-            <PlaylistCard />
-            <PlaylistCard />
-            <PlaylistCard />
-          </div> */}
+        <div className='scrollable-div overflow-y-auto h-[100vh] lg:h-full flex-grow px-4'>
           {problems && problems.map((problem, index) => (
             <ProblemCard
               firstRender={index == 0}

@@ -25,6 +25,8 @@ const SubmissionDetail = ({ submissions }) => {
         </>
     )
   }
+
+  
   return (
     <div className="space-y-4">
       {submissions.map((submission, index) => {

@@ -162,9 +162,6 @@ const Submission = ({ problemId }) => {
         </>
     }
 
-
-    console.log(submission);
-
     return <>
         <SubmissionDetail submissions={submission} />
     </>
