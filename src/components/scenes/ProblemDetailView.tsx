@@ -97,7 +97,7 @@ const ProblemDetailView: React.FC = () => {
       </div>
 
       <div className="text-center">
-        <button className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-medium py-2 px-6 rounded-lg flex items-center mx-auto transition-all">
+        <button className="bg-gradient-to-r from-accent to-accent hover:from-cyan-600 hover:to-blue-700 text-white font-medium py-2 px-6 rounded-lg flex items-center mx-auto transition-all">
           <Code size={16} className="mr-2" />
           Solve this Problem
         </button>
@@ -110,7 +110,7 @@ export const ProblmeDetailText: React.FC = () => {
   return (
     <div className=" rounded-2xl p-6 text-white shadow-lg">
       <h2 className="text-3xl font-extrabold mb-4 leading-tight tracking-wide">
-        🌲 The Problem Fores
+        🌲 The Problem Forest
       </h2>
       <p className="text-emerald-100 text-base leading-relaxed">
         Enter the forest of logic. Every leaf is a pattern. Every tree, a

@@ -35,28 +35,30 @@ function App() {
     );
   }
 
+  console.log(import.meta.env.MODE);
   return (
-    <>
-      <Toaster />
-      <AnimatePresence mode="wait">
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/signup" element={!authUser ? <Register /> : <Navigate to="/problems" />} />
-          <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/problems" />} />
-          <Route path="/" element={<AnimatedPage><Landing2 /></AnimatedPage>} />
 
-          {/* Protected Routes */}
-          <Route path="/" element={authUser ? <Layout /> : <Navigate to="/login" />}>
-            <Route path="problems" element={<AnimatedPage><ProblemList /></AnimatedPage>} />
-            <Route path="problem/:id" element={<AnimatedPage><ProblemDetailPage /></AnimatedPage>} />
-            <Route path="createProblem" element={<AnimatedPage><CreateProblemPage /></AnimatedPage>} />
-          </Route>
+  <>
+    <Toaster />
+    <AnimatePresence mode="wait">
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/signup" element={!authUser ? <Register /> : <Navigate to="/problems" />} />
+        <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/problems" />} />
+        <Route path="/" element={<AnimatedPage><Landing2 /></AnimatedPage>} />
 
-          {/* Catch-All Route */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </AnimatePresence>
-    </>
+        {/* Protected Routes */}
+        <Route path="/" element={authUser ? <Layout /> : <Navigate to="/login" />}>
+          <Route path="problems" element={<AnimatedPage><ProblemList /></AnimatedPage>} />
+          <Route path="problem/:id" element={<AnimatedPage><ProblemDetailPage /></AnimatedPage>} />
+          <Route path="createProblem" element={<AnimatedPage><CreateProblemPage /></AnimatedPage>} />
+        </Route>
+
+        {/* Catch-All Route */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </AnimatePresence>
+  </>
   );
 }
 

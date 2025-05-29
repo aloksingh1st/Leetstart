@@ -69,7 +69,7 @@ const LandingScene: React.FC = () => {
       <section className="min-h-screen flex items-center justify-center px-4 mt-[15rem]">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent to-blue-500">
               Your Journey to DSA Mastery Begins Here.
             </span>
           </h1>
@@ -103,7 +103,7 @@ const LandingScene: React.FC = () => {
 
           {/* Call-to-Action Buttons */}
           <div className="flex flex-col md:flex-row gap-4 justify-center mt-10">
-            <button className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg shadow-lg transition-all">
+            <button className="bg-gradient-to-r from-accent to-accent-800 hover:from-accent-600 hover:to-accent-700 text-white font-medium py-3 px-8 rounded-lg shadow-lg transition-all">
               Start Solving
             </button>
             <button className="bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 px-8 rounded-lg shadow-lg transition-all">

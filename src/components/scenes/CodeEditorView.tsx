@@ -116,7 +116,7 @@ const CodeEditorView: React.FC = () => {
       {/* Footer */}
       <div className="bg-gray-800/80 px-4 py-2 border-t border-gray-700/50 flex justify-between items-center">
         <div className="text-xs text-gray-400">Time complexity: O(n)</div>
-        <button className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white text-sm font-medium py-1 px-4 rounded transition-all">
+        <button className="bg-gradient-to-r from-accent to-accent hover:from-accent-600 hover:to-accent-700 text-white text-sm font-medium py-1 px-4 rounded transition-all">
           Submit Solution
         </button>
       </div>

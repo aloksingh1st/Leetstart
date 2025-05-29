@@ -47,7 +47,7 @@ const Login = () => {
             <div className="absolute inset-0 z-0 bg-gradient-to-tr from-[#0a0a0a] via-[#0f172a] to-[#1e3a8a] opacity-80"></div>
 
             {/* Logo at Top Left Corner */}
-            <motion.img
+            {/* <motion.img
                 src={logo}
                 alt="LeetStart Logo"
                 className="absolute top-[-12px] left-2 w-34"
@@ -67,7 +67,7 @@ const Login = () => {
                 initial="hidden"
                 animate="visible"
                 transition={{ duration: 0.5, ease: "easeOut" }}
-            />
+            /> */}
 
             <div className="min-h-screen sm:flex sm:flex-row mx-0 justify-center">
                 {/* Left Section */}

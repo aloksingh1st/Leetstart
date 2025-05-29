@@ -180,7 +180,7 @@ const Overlay = ({ submissionOverlay, setSubmissionOverlay }) => {
         );
     }
 
-    const failedSubmission = submission.find(sub => sub.status !== "Accepted");
+    const failedSubmission = submission.find(sub => !sub.passed);
     const numberOfTestCases = submission.length;
 
     const totalMemory = submission.reduce((sum, test) => {

@@ -2,8 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { BookOpenCheck, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import ProblemCard from "./ProblemCard";
+import { useNavigate } from "react-router-dom";
 
 const PlaylistItem = ({ playlist }) => {
+
+
+    const navigate = useNavigate();
+    
     const [isExpanded, setIsExpanded] = useState(false);
     const [height, setHeight] = useState(0);
     const contentRef = useRef(null);
@@ -23,6 +28,12 @@ const PlaylistItem = ({ playlist }) => {
             setHeight(0);
         }
     }, [isExpanded]);
+
+
+    const handleCardClick = (problemId) => {
+        navigate(`/problem/${problemId}`);
+    };
+
 
     return (
         <div className="bg-white dark:bg-[#131c2c] border border-gray-200 dark:border-[#2a3344] rounded-lg shadow-sm transition-all duration-300">
@@ -70,28 +81,19 @@ const PlaylistItem = ({ playlist }) => {
                                 <div
                                     key={problem.id} // Use problem.id as the key for unique identification
                                     className="bg-white dark:bg-[#131c2c] border border-gray-200 dark:border-[#2a3344] rounded-lg shadow-sm p-4 mb-4"
+                                    onClick={() => handleCardClick(problem.problem.id)}
                                 >
                                     <div className="flex justify-between items-center">
                                         <div>
+
+                                            {console.log(problem.problem)}
                                             <div className="font-medium text-gray-800 dark:text-gray-200">
-                                                {problem.name} {/* Display problem name */}
-                                            </div>
-                                            <div className="text-xs opacity-60 text-gray-600 dark:text-gray-400">
-                                                {/* Display tags */}
-                                                {problem.tags && problem.tags.length > 0 ? (
-                                                    problem.tags.map((tag, tagIndex) => (
-                                                        <span key={tagIndex} className="mr-1 text-xs text-gray-500 dark:text-gray-400">
-                                                            {tag}
-                                                        </span>
-                                                    ))
-                                                ) : (
-                                                    <span className="text-xs text-gray-400 dark:text-gray-500">No tags available</span>
-                                                )}
+                                                {problem.problem.title} {/* Display problem name */}
                                             </div>
                                         </div>
                                         <div>
                                             <span className="badge badge-outline badge-xs text-gray-700 dark:text-gray-400">
-                                                {problem.difficulty} {/* Display problem difficulty */}
+                                                {problem.problem.difficulty} {/* Display problem difficulty */}
                                             </span>
                                         </div>
                                     </div>
