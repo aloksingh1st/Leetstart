@@ -266,7 +266,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:mysecretpassword@localhost:5432/postgres"
+        "value": "postgresql://leethub_user:KDidvt6dd9lrWyq2wElZMa2Tg811UJA5@dpg-d0s7nl49c44c73csck8g-a.singapore-postgres.render.com/leethub"
       }
     }
   },

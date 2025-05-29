@@ -394,6 +394,7 @@ export const login = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "User Logged in successfully!!",
+            secure: process.env.NODE_ENV,
             user: {
                 id: user.id,
                 name: user.name,
