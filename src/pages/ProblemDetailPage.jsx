@@ -169,7 +169,6 @@ const Editorial = ({ problem }) => {
         </motion.div>
     );
 };
-z
 
 
 const Submission = ({ problemId }) => {
