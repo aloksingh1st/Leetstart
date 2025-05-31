@@ -377,14 +377,20 @@ export const login = async (req, res) => {
             })
         }
 
+
+
+        console.log("jwt_" + process.env.JWT_SECRET);
+
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: "7d"
         })
 
+        console.log("token_" + token);
+
         const options = {
             httpOnly: true,
             sameSite: "strict",
-            secure: process.env.NODE_ENV = "development",
+            secure: process.env.NODE_ENV == "development",
             maxAge: 1000 * 60 * 60 * 24 * 7 //7 days
         };
 
