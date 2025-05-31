@@ -4,6 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { swaggerUi, swaggerSpec } from './libs/swaggerConfig.js';
+import  statusMonitor from "express-status-monitor";
+
 
 
 import authRoutes from "./routes/auth.routes.js";
@@ -19,6 +21,7 @@ const app = express();
 dotenv.config();
 app.use(json());
 app.use(cookieParser());
+app.use(statusMonitor());
 
 const allowedOrigins = [
     'http://localhost:5173',
