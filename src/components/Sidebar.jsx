@@ -4,6 +4,8 @@ import PlaylistItem from "./PlaylistItem";
 import { BookOpenCheck, Loader2 } from "lucide-react";
 
 const Sidebar = () => {
+
+
     const [showModal, setShowModal] = useState(false);
     const [playlistName, setPlaylistName] = useState("");
     const [playlistDescription, setPlaylistDescription] = useState("");
@@ -26,7 +28,7 @@ const Sidebar = () => {
         return newErrors;
     };
 
-    const handleCreate = (e) => {
+    const handleCreate = async(e) => {
         e.preventDefault();
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
@@ -37,6 +39,7 @@ const Sidebar = () => {
             name: playlistName.trim(),
             description: playlistDescription.trim(),
         };
+
         createPlaylist(newPlaylist);
         resetForm();
         setShowModal(false);

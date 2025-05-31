@@ -6,8 +6,11 @@ const ThemeController = () => {
 
     const [theme, setTheme] = useState("light");
 
+
+
     useEffect(() => {
         document.querySelector("html").setAttribute("data-theme", theme);
+        document.documentElement.classList.toggle('dark', theme === "dark");
     }, [theme]);
 
 

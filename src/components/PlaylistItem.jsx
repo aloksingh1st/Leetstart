@@ -5,35 +5,36 @@ import ProblemCard from "./ProblemCard";
 import { useNavigate } from "react-router-dom";
 
 const PlaylistItem = ({ playlist }) => {
-
-
     const navigate = useNavigate();
-    
+
     const [isExpanded, setIsExpanded] = useState(false);
     const [height, setHeight] = useState(0);
     const contentRef = useRef(null);
 
-    const { currentPlaylist, isLoading, getPlaylistDetails } = usePlaylistStore();
+    const [problems, setProblems] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+    const { getPlaylistDetails, currentPlaylist } = usePlaylistStore();
 
-    // Fetch playlist details on mount
+
     useEffect(() => {
-        getPlaylistDetails(playlist.id);
-    }, [playlist.id, getPlaylistDetails]);
+        if (isExpanded) {
+            getPlaylistDetails(playlist.id);
+        }
+        setProblems(currentPlaylist?.problems);
+    }, [isExpanded, getPlaylistDetails]);
 
-    // Update height for smooth transition when expanded
+
     useEffect(() => {
         if (isExpanded && contentRef.current) {
             setHeight(contentRef.current.scrollHeight);
         } else {
             setHeight(0);
         }
-    }, [isExpanded]);
-
+    }, [isExpanded, problems]);
 
     const handleCardClick = (problemId) => {
         navigate(`/problem/${problemId}`);
     };
-
 
     return (
         <div className="bg-white dark:bg-[#131c2c] border border-gray-200 dark:border-[#2a3344] rounded-lg shadow-sm transition-all duration-300">
@@ -65,35 +66,32 @@ const PlaylistItem = ({ playlist }) => {
                 className="overflow-hidden transition-all duration-500 ease-in-out"
                 style={{ maxHeight: `${height}px` }}
             >
-                {/* Show loader while fetching playlist details */}
-                {isLoading ? (
+                {isFetching ? (
                     <div className="flex justify-center items-center p-4 text-gray-500 dark:text-gray-400">
                         <Loader2 className="animate-spin mr-2" /> Loading...
                     </div>
                 ) : (
                     <div ref={contentRef} className="px-4 pb-4 space-y-2 text-sm">
-                        {playlist.problems.length === 0 ? (
+                        {problems?.length === 0 ? (
                             <div className="text-xs text-gray-400 italic dark:text-gray-500">
                                 No problems added yet
                             </div>
                         ) : (
-                            playlist.problems.map((problem, index) => (
+                            problems?.map((problemWrapper, index) => (
                                 <div
-                                    key={problem.id} // Use problem.id as the key for unique identification
-                                    className="bg-white dark:bg-[#131c2c] border border-gray-200 dark:border-[#2a3344] rounded-lg shadow-sm p-4 mb-4"
-                                    onClick={() => handleCardClick(problem.problem.id)}
+                                    key={problemWrapper.id || index}
+                                    className="bg-white dark:bg-[#131c2c] border border-gray-200 dark:border-[#2a3344] rounded-lg shadow-sm p-4 mb-2 cursor-pointer"
+                                    onClick={() => handleCardClick(problemWrapper.problem.id)}
                                 >
                                     <div className="flex justify-between items-center">
                                         <div>
-
-                                            {console.log(problem.problem)}
                                             <div className="font-medium text-gray-800 dark:text-gray-200">
-                                                {problem.problem.title} {/* Display problem name */}
+                                                {problemWrapper.problem.title}
                                             </div>
                                         </div>
                                         <div>
                                             <span className="badge badge-outline badge-xs text-gray-700 dark:text-gray-400">
-                                                {problem.problem.difficulty} {/* Display problem difficulty */}
+                                                {problemWrapper.problem.difficulty}
                                             </span>
                                         </div>
                                     </div>

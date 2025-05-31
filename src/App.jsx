@@ -35,7 +35,6 @@ function App() {
     );
   }
 
-  console.log(import.meta.env.MODE);
   return (
 
   <>

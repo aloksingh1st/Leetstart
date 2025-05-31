@@ -13,7 +13,6 @@ export const useAuthStore = create((set) => ({
 
         try {
 
-
             // const res = await axiosInstance.post("/auth/logout");
             const res = await axiosInstance.get("/auth/checkme");
             console.log("✅ checkAuth response:", res.data);

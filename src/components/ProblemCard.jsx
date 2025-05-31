@@ -3,10 +3,17 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 
-const ProblemCard = ({ firstRender = false, title, tags, difficulty, problemId }) => {
+const ProblemCard = ({
+  firstRender = false,
+  title,
+  tags,
+  difficulty,
+  problemId,
+}) => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
   const { addProblemToPlaylist, playlists, getAllPlaylists } = usePlaylistStore();
 
   useEffect(() => {
@@ -17,8 +24,9 @@ const ProblemCard = ({ firstRender = false, title, tags, difficulty, problemId }
     navigate(`/problem/${problemId}`);
   };
 
-  const handlePlaylistClick = (playlistId) => {
+  const handlePlaylistClick = async(playlistId) => {
     addProblemToPlaylist(playlistId, [problemId]);
+
     setIsDropdownVisible(false);
   };
 
@@ -40,7 +48,8 @@ const ProblemCard = ({ firstRender = false, title, tags, difficulty, problemId }
 
   return (
     <ul
-      className={`list bg-base-100 rounded-box shadow-md mb-2 ${firstRender ? "mt-10" : ""}`}
+      className={`list bg-base-100 rounded-box shadow-md mb-2 ${firstRender ? "mt-10" : ""
+        }`}
       onClick={handleCardClick}
     >
       {firstRender && (
@@ -51,34 +60,51 @@ const ProblemCard = ({ firstRender = false, title, tags, difficulty, problemId }
 
       <li className="list-row flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2">
-          <CodeSquareIcon />
+          <CodeSquareIcon className="text-accent" />
           <div>
             <div className="font-medium">{title}</div>
             <div className="text-xs uppercase font-semibold opacity-60">
               {tags?.map((tag) => (
-                <span key={tag} className="mr-1">{tag}</span>
+                <span key={tag} className="mr-1">
+                  {tag}
+                </span>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="relative flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-          <button className="btn btn-xs btn-outline">{difficulty}</button>
-
+        <div
+          className="relative flex items-center gap-2"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <span
+            className={`btn btn-xs btn-outline ${difficulty === "EASY"
+                ? "text-green-600 border-green-600"
+                : difficulty === "Medium"
+                  ? "text-orange-500 border-orange-500"
+                  : "text-red-600 border-red-600"
+              }`}
+          >
+            {difficulty}
+          </span>
           <div ref={dropdownRef}>
             <button
               onClick={handleDropdownToggle}
               className="btn btn-square btn-ghost"
               title="More actions"
             >
-              <svg xmlns="http://www.w3.org/2000/svg"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M6 12h.01M12 12h.01M18 12h.01"
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 10h10M4 14h6M18 14v6m3-3h-6"
                 />
               </svg>
             </button>

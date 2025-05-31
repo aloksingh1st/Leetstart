@@ -6,7 +6,7 @@ import { useProblemStore } from "../store/useProblemStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useExecutionStore } from "../store/useExecution";
-import { Loader2, User, ChevronDown, ChevronUp, Code2 } from "lucide-react";
+import { Loader2, User, ChevronDown, ChevronUp, Code2, ChevronLeft, Lightbulb, Sun, Moon} from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 
@@ -76,6 +76,10 @@ const ProblemDetail = ({ problem }) => {
         </motion.div>
     );
 };
+
+
+
+
 const Editorial = ({ problem }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const contentRef = useRef(null);
@@ -93,7 +97,11 @@ const Editorial = ({ problem }) => {
         }
     }, [isExpanded]);
 
-    if (!problem) return <div>Problem not found</div>;
+    if (!problem) return (
+        <div className="text-sm dark:text-gray-400 text-gray-600">
+            Problem not found
+        </div>
+    );
 
     return (
         <motion.div
@@ -102,21 +110,27 @@ const Editorial = ({ problem }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -10 }}
             transition={{ duration: 0.3 }}
-            className="rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-sm"
+            className="rounded-lg border dark:border-gray-800 border-gray-200 
+                       dark:bg-gray-900/50 bg-gray-50/50 shadow-sm 
+                       transition-colors duration-200"
         >
             {/* Header */}
             <div
                 onClick={toggleExpand}
-                className="flex justify-between items-center px-4 py-3 cursor-pointer"
+                className="flex justify-between items-center px-4 py-3 cursor-pointer
+                          hover:bg-gray-100 dark:hover:bg-gray-800/50 
+                          transition-colors duration-200"
             >
                 <div className="flex items-center gap-2 text-sm font-medium">
-                    <Code2 className="w-4 h-4" />
-                    Reference Solutions
+                    <Code2 className="w-4 h-4 dark:text-green-400 text-emerald-600" />
+                    <span className="dark:text-gray-200 text-gray-700">
+                        Reference Solutions
+                    </span>
                 </div>
                 {isExpanded ? (
-                    <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                    <ChevronUp className="w-4 h-4 dark:text-gray-400 text-gray-500" />
                 ) : (
-                    <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                    <ChevronDown className="w-4 h-4 dark:text-gray-400 text-gray-500" />
                 )}
             </div>
 
@@ -129,21 +143,33 @@ const Editorial = ({ problem }) => {
                     {problem.referenceSolutions &&
                         Object.entries(problem.referenceSolutions).length > 0 ? (
                         Object.entries(problem.referenceSolutions).map(([lang, code], index) => (
-                            <div key={index} className="mb-4">
-                                <p className="font-semibold text-sm text-accent mb-1">{lang}</p>
-                                <pre className="bg-gray-100 dark:bg-zinc-800 p-3 rounded text-sm overflow-auto whitespace-pre-wrap">
+                            <div key={index} className="mb-4 last:mb-0">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-sm font-medium dark:text-green-400 text-emerald-600">
+                                        {lang}
+                                    </span>
+                                    <div className="h-px flex-1 dark:bg-gray-800 bg-gray-200" />
+                                </div>
+                                <pre className="dark:bg-gray-800/50 bg-gray-100 p-4 rounded-lg 
+                                              text-sm overflow-auto whitespace-pre-wrap
+                                              dark:text-gray-300 text-gray-700
+                                              dark:border-gray-700 border border-gray-200
+                                              transition-colors duration-200">
                                     <code>{code}</code>
                                 </pre>
                             </div>
                         ))
                     ) : (
-                        <p className="text-sm text-muted-foreground">No reference solutions provided.</p>
+                        <p className="text-sm dark:text-gray-400 text-gray-500">
+                            No reference solutions provided.
+                        </p>
                     )}
                 </div>
             </div>
         </motion.div>
     );
 };
+z
 
 
 const Submission = ({ problemId }) => {
@@ -330,100 +356,217 @@ const Overlay = ({ submissionOverlay, setSubmissionOverlay }) => {
 };
 
 const InsertionAtHeadPage = () => {
-
-    const scrollRef = useRef(null);
-
     const { id } = useParams();
     const { isProblemsLoading, problem, getProblemById } = useProblemStore();
     const [activeTab, setActiveTab] = useState("cpp");
     const [submissionOverlay, setSubmissionOverlay] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(() =>
+        document.documentElement.classList.contains("dark")
+      );
     const navigate = useNavigate();
+  
+    useEffect(() => {
+      getProblemById(id);
+    }, [id, getProblemById]);
 
 
     useEffect(() => {
-        getProblemById(id);
-    }, [id, getProblemById]);
-
+        const observer = new MutationObserver(() => {
+          const isDark = document.documentElement.classList.contains("dark");
+          setIsDarkMode(isDark);
+        });
+    
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["class"],
+        });
+    
+        return () => observer.disconnect();
+      }, []);
+  
+  
     if (isProblemsLoading) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <span className="loading loading-spinner text-primary"></span>
-            </div>
-        );
-    }
-
-    // Badge color logic
-    const difficultyBadge = {
-        Easy: "badge-success",
-        Medium: "badge-warning",
-        Hard: "badge-error",
-    };
-
-    return (
-        <div className="p-6 bg-base-100 min-h-screen">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-                <button className="btn btn-ghost text-lg font-bold" onClick={() => navigate('/problems')}>← Problem List</button>
-                <div className="flex items-center gap-3">
-                    <span className={`badge text-white text-xs ${difficultyBadge["Easy"] || "badge-neutral"}`}>
-                        Easy
-                    </span>
-                    <button className="btn btn-sm btn-outline btn-info">Hint</button>
-                </div>
-            </div>
-
-            {/* Split Layout */}
-            <Split className="flex h-[calc(100vh-7rem)] gap-2" sizes={[50, 50]} minSize={300} gutterSize={8}>
-                {/* Left Panel */}
-                <div className="bg-base-200 p-4 rounded-lg border border-base-300 shadow overflow-y-auto">
-
-                    {submissionOverlay ? <Overlay submissionOverlay={submissionOverlay} setSubmissionOverlay={setSubmissionOverlay} /> :
-
-                        <>
-
-                            <div role="tablist" className="tabs tabs-bordered mb-4">
-                                {["cpp", "editorial", "submissions"].map((tab) => (
-                                    <a
-                                        key={tab}
-                                        role="tab"
-                                        className={`tab tab-lifted transition-all duration-200 ease-in-out ${activeTab === tab ? "tab-active font-bold text-base-content" : ""
-                                            }`}
-                                        onClick={() => setActiveTab(tab)}
-                                    >
-                                        {tab === "cpp" ? "Problem" : tab.charAt(0).toUpperCase() + tab.slice(1)}
-                                    </a>
-                                ))}
-                            </div>
-
-
-                            <AnimatePresence mode="wait">
-                                {activeTab === "cpp" && <ProblemDetail problem={problem} key="cpp" />}
-                                {activeTab === "editorial" && <Editorial problem={problem} key="editorial" />}
-                                {activeTab === "submissions" && (
-                                    <motion.div
-                                        key="python"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -10 }}
-                                        transition={{ duration: 0.3 }}
-                                        className="bg-base-100 p-4 rounded border border-base-300"
-                                    >
-                                        <Submission problemId={id} />
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </>
-
-                    }
-                </div>
-
-                {/* Right Panel */}
-                <div className="bg-base-200 p-4 rounded-lg border border-base-300 shadow overflow-y-auto">
-                    {problem && <CodeSection problem={problem} setSubmissionOverlay={setSubmissionOverlay} />}
-                </div>
-            </Split>
+      return (
+        <div className={`flex items-center justify-center h-screen ${isDarkMode ? 'bg-gray-950' : 'bg-gray-50'}`}>
+          <div className={`w-12 h-12 border-4 rounded-full animate-spin ${
+            isDarkMode 
+              ? 'border-green-400 border-t-transparent' 
+              : 'border-emerald-500 border-t-transparent'
+          }`} />
         </div>
+      );
+    }
+  
+    const difficultyConfig = {
+      Easy: {
+        dark: "bg-green-500/10 text-green-400 border border-green-500/20",
+        light: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+        text: "Easy"
+      },
+      Medium: {
+        dark: "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
+        light: "bg-amber-100 text-amber-700 border border-amber-200",
+        text: "Medium"
+      },
+      Hard: {
+        dark: "bg-red-500/10 text-red-400 border border-red-500/20",
+        light: "bg-red-100 text-red-700 border border-red-200",
+        text: "Hard"
+      }
+    };
+  
+    const difficulty = difficultyConfig["Easy"];
+  
+    return (
+      <div className={`min-h-screen ${
+        isDarkMode 
+          ? 'bg-gray-950 text-gray-100' 
+          : 'bg-gray-50 text-gray-900'
+      }`}>
+        {/* Header */}
+        <div className={`border-b sticky top-0 z-50 backdrop-blur-sm ${
+          isDarkMode 
+            ? 'border-gray-800 bg-gray-900/50' 
+            : 'border-gray-200 bg-white/50'
+        }`}>
+          <div className="max-w-[1920px] mx-auto px-6 py-4 flex items-center justify-between">
+            <button 
+              onClick={() => navigate('/problems')}
+              className={`flex items-center gap-2 transition-colors ${
+                isDarkMode 
+                  ? 'text-gray-400 hover:text-green-400' 
+                  : 'text-gray-500 hover:text-emerald-600'
+              }`}
+            >
+              <ChevronLeft size={20} />
+              <span className="font-medium">Problem List</span>
+            </button>
+  
+            <div className="flex items-center gap-4">
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                isDarkMode ? difficulty.dark : difficulty.light
+              }`}>
+                {difficulty.text}
+              </span>
+              
+              <button className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                isDarkMode 
+                  ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20' 
+                  : 'bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100'
+              }`}>
+                <Lightbulb size={18} />
+                <span className="font-medium">Hint</span>
+              </button>
+  
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`p-2 rounded-lg transition-all ${
+                  isDarkMode 
+                    ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+            </div>
+          </div>
+        </div>
+  
+        {/* Main Content */}
+        <div className="max-w-[1920px] mx-auto p-6">
+          <Split 
+            className="flex gap-6" 
+            sizes={[50, 50]} 
+            minSize={400}
+            gutterStyle={() => ({
+              backgroundColor: isDarkMode ? '#1f2937' : '#e5e7eb',
+              width: '6px',
+              cursor: 'col-resize'
+            })}
+          >
+            {/* Left Panel */}
+            <div className={`rounded-xl overflow-hidden ${
+              isDarkMode 
+                ? 'bg-gray-900 border border-gray-800' 
+                : 'bg-white border border-gray-200 shadow-sm'
+            }`}>
+              {submissionOverlay ? (
+                <Overlay 
+                  submissionOverlay={submissionOverlay} 
+                  setSubmissionOverlay={setSubmissionOverlay} 
+                />
+              ) : (
+                <>
+                  <div className={`border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-200'}`}>
+                    <div className="flex" role="tablist">
+                      {["cpp", "editorial", "submissions"].map((tab) => (
+                        <button
+                          key={tab}
+                          role="tab"
+                          className={`px-6 py-4 text-sm font-medium transition-colors relative ${
+                            activeTab === tab 
+                              ? isDarkMode 
+                                ? 'text-green-400 bg-gray-800/50'
+                                : 'text-emerald-600 bg-gray-50'
+                              : isDarkMode
+                                ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/30'
+                                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                          }`}
+                          onClick={() => setActiveTab(tab)}
+                        >
+                          {tab === "cpp" ? "Problem" : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                          {activeTab === tab && (
+                            <motion.div 
+                              className={`absolute bottom-0 left-0 right-0 h-0.5 ${
+                                isDarkMode ? 'bg-green-400' : 'bg-emerald-500'
+                              }`}
+                              layoutId="activeTab"
+                            />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+  
+                  <div className="p-6">
+                    <AnimatePresence mode="wait">
+                      {activeTab === "cpp" && <ProblemDetail problem={problem} key="cpp" />}
+                      {activeTab === "editorial" && <Editorial problem={problem} key="editorial" />}
+                      {activeTab === "submissions" && (
+                        <motion.div
+                          key="submissions"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <Submission problemId={id} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </>
+              )}
+            </div>
+  
+            {/* Right Panel */}
+            <div className={`rounded-xl ${
+              isDarkMode 
+                ? 'bg-gray-900 border border-gray-800' 
+                : 'bg-white border border-gray-200 shadow-sm'
+            }`}>
+              {problem && (
+                <CodeSection 
+                  problem={problem} 
+                  setSubmissionOverlay={setSubmissionOverlay} 
+                  isDarkMode={isDarkMode}
+                />
+              )}
+            </div>
+          </Split>
+        </div>
+      </div>
     );
-};
-
-export default InsertionAtHeadPage;
+  };
+  
+  export default InsertionAtHeadPage;
