@@ -31,23 +31,17 @@ app.use(cookieParser());
 app.use(statusMonitor());
 app.use(morgan('combined'));
 
-const allowedOrigins = [
-    'http://localhost:5173',
-    'https://leetstart.vercel.app'
-];
 
-app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps, curl, postman)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        } else {
-            return callback(new Error('Not allowed by CORS'));
-        }
-    },
+
+const allowedOrigins = [
+    "http://localhost:5173",        // for local dev
+    "https://leetstart.vercel.app" // for prod
+  ];
+  
+  app.use(cors({
+    origin: allowedOrigins,
     credentials: true
-}));
+  }));
 
 
 
