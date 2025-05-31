@@ -389,8 +389,8 @@ export const login = async (req, res) => {
 
         const options = {
             httpOnly: true,
-            sameSite: "None",
-            secure: process.env.NODE_ENV == "development",
+            sameSite: "Lax",
+            secure: false,
             maxAge: 1000 * 60 * 60 * 24 * 7 //7 days
         };
 
