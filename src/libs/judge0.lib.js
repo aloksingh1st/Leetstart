@@ -30,7 +30,7 @@ export const pollBatchResults = async (tokens) => {
 
             headers: {
                 'Content-Type': 'application/json',
-                'X-Rapidapi-Key': 'f7c89bbd6emsh4a27131f1ae489fp180bdejsn1530ce38f2cf',
+                'X-Rapidapi-Key': process.env.RAPIDAPI_KEY,
                 'X-Rapidapi-Host': 'judge0-ce.p.rapidapi.com',
             },
         })
