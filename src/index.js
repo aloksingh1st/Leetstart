@@ -35,7 +35,8 @@ app.use(morgan('combined'));
 
 const allowedOrigins = [
     "http://localhost:5173",        // for local dev
-    "https://leetstart.vercel.app" // for prod
+    "https://leetstart.vercel.app",
+    "https://www.leetstart.in" // for prod
   ];
   
   app.use(cors({
