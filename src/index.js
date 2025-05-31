@@ -6,6 +6,12 @@ import cookieParser from "cookie-parser";
 import { swaggerUi, swaggerSpec } from './libs/swaggerConfig.js';
 import  statusMonitor from "express-status-monitor";
 import morgan from "morgan";
+import path, {dirname} from "path";
+import fs from "fs";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 
@@ -50,13 +56,13 @@ app.get('/logs', (req, res) => {
     
     fs.readFile(logFilePath, 'utf8', (err, data) => {
       if (err) {
-        res.status(500).send('Error reading log file.');
+        res.status(500).send('Error reading log file.' +err);
       } else {
         res.type('text/plain').send(data);
       }
     });
   });
-  
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/v1/auth", authRoutes);

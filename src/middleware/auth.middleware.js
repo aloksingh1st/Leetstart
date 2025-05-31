@@ -9,6 +9,8 @@ export const authMiddleware = async (req, res, next) => {
 
         const token = req.cookies.jwt;
 
+        console.log(token);
+
         if (!token) {
             return res.status(401).json({ message: "Unauthorized - No token provided" });
         }
@@ -19,6 +21,8 @@ export const authMiddleware = async (req, res, next) => {
         try {
             decoded = jwt.verify(token, process.env.JWT_SECRET);
         } catch (error) {
+
+            console.log(error);
             return res.status(401).json({
                 message: "Unauthorized - Invalid token"
             })
