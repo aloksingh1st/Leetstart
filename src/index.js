@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { swaggerUi, swaggerSpec } from './libs/swaggerConfig.js';
 import  statusMonitor from "express-status-monitor";
+import morgan from "morgan";
 
 
 
@@ -22,6 +23,7 @@ dotenv.config();
 app.use(json());
 app.use(cookieParser());
 app.use(statusMonitor());
+app.use(morgan('combined'));
 
 const allowedOrigins = [
     'http://localhost:5173',
