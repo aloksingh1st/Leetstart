@@ -387,14 +387,30 @@ export const login = async (req, res) => {
 
         console.log("token_" + token);
 
+        // const options = {
+        //     httpOnly: true,
+        //     sameSite: "Lax",
+        //     secure: false,
+        //     maxAge: 1000 * 60 * 60 * 24 * 7 //7 days
+        // };
+
+
+        // res.cookie("jwt", token, {
+        //     httpOnly: true,
+        //     secure: true, // must be true for cross-site cookies in production
+        //     sameSite: "None", // "None" allows cross-site cookies
+        //     maxAge: 1000 * 60 * 60 * 24 * 7,
+        //   });
+
+
         const options = {
             httpOnly: true,
-            sameSite: "Lax",
-            secure: false,
-            maxAge: 1000 * 60 * 60 * 24 * 7 //7 days
-        };
+            secure: true, // must be true for cross-site cookies in production
+            sameSite: "None", // "None" allows cross-site cookies
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+        }
 
-
+          
         res.cookie("jwt", token, options);
 
         res.status(200).json({
