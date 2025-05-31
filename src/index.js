@@ -43,6 +43,20 @@ app.use(cors({
     credentials: true
 }));
 
+
+
+app.get('/logs', (req, res) => {
+    const logFilePath = path.join(__dirname, 'access.log');
+    
+    fs.readFile(logFilePath, 'utf8', (err, data) => {
+      if (err) {
+        res.status(500).send('Error reading log file.');
+      } else {
+        res.type('text/plain').send(data);
+      }
+    });
+  });
+  
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/v1/auth", authRoutes);
