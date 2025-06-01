@@ -16,6 +16,7 @@ import ProblemDetailPage from './pages/ProblemDetailPage';
 import Landing from './pages/Landing';
 import AnimatedPage from './components/AnimatePage';
 import Landing2 from './pages/Landing2';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
         {/* Protected Routes */}
         <Route path="/" element={authUser ? <Layout /> : <Navigate to="/login" />}>
           <Route path="problems" element={<AnimatedPage><ProblemList /></AnimatedPage>} />
+          <Route path="profile" element={<AnimatedPage><ProfilePage /></AnimatedPage>} />
           <Route path="problem/:id" element={<AnimatedPage><ProblemDetailPage /></AnimatedPage>} />
           <Route path="createProblem" element={<AnimatedPage><CreateProblemPage /></AnimatedPage>} />
         </Route>

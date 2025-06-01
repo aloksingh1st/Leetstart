@@ -78,8 +78,6 @@ const ProblemDetail = ({ problem }) => {
 };
 
 
-
-
 const Editorial = ({ problem }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const contentRef = useRef(null);

@@ -11,6 +11,17 @@ const ThemeController = () => {
     useEffect(() => {
         document.querySelector("html").setAttribute("data-theme", theme);
         document.documentElement.classList.toggle('dark', theme === "dark");
+
+
+        const root = document.documentElement;
+        if (theme === 'dark') {
+          root.classList.add('dark');
+        } else {
+          root.classList.remove('dark');
+        }
+        localStorage.setItem('theme', theme);
+
+        
     }, [theme]);
 
 
