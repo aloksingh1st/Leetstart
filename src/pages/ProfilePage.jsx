@@ -4,7 +4,6 @@ import ProfileForm from '../components/Profile/ProfileForm';
 import StreakCalendar from '../components/Profile/StreakCalendar';
 import RecentActivity from '../components/Profile/RecentActivity';
 import SaveButton from '../components/Profile/SaveButton';
-import ThemeToggle from '../components/Profile/ThemeToggle';
 import { mockUserProfile } from '../data/mockData';
 
 const ProfilePage = () => {

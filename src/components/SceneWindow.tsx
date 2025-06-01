@@ -49,7 +49,7 @@ const SceneWindow: React.FC<SceneWindowProps> = ({ children }) => {
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
           <div className="flex-1 text-center text-gray-400 text-sm font-medium">
-            leetstart.io
+            leetstart.in
           </div>
           <div className="w-4"></div>
         </div>
