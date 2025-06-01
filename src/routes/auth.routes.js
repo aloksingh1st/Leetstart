@@ -1,5 +1,5 @@
 import express from "express";
-import { checkMe, dummyMail, login, logout, register, resendVerificationMail, updateUserProfile, verifyUser } from "../controllers/auth.controller.js";
+import { checkMe, dummyMail, getUserProfile, login, logout, register, resendVerificationMail, updateUserProfile, verifyUser } from "../controllers/auth.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { validateLogin } from "../middleware/validators/loginValidator.js";
 import { registerValidator } from "../middleware/validators/registerValidator.js";
@@ -23,6 +23,7 @@ authRoutes.patch(
     updateUserProfile
   );
 authRoutes.post('/logout', logout);
+authRoutes.get('/getUserProfile', authMiddleware, getUserProfile);
 authRoutes.get('/dummyMail', dummyMail);
 
 

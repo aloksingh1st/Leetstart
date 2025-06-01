@@ -591,3 +591,43 @@ export const updateUserProfile = async (req, res) => {
     }
   };
   
+
+
+  export const getUserProfile = async (req, res) => {
+    try {
+      const userId = req.user.id; // Get the user ID from the authenticated session
+  
+      // Fetch user details from the database
+      const user = await db.user.findUnique({
+        where: { id: userId },
+        select: {
+          name: true,
+          email: true,
+          image: true, // Assuming 'profilePicture' field exists in your DB
+        },
+      });
+  
+      // Check if user exists
+      if (!user) {
+        return res.status(404).json({
+          error: 'User not found',
+        });
+      }
+  
+      // Return user data, alias profilePicture as image
+      res.status(200).json({
+        success: true,
+        user: {
+          name: user.name,
+          email: user.email,
+          image: user.image || 'https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_items_boosted&w=740', // Alias profilePicture as image
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      res.status(500).json({
+        error: 'Failed to fetch user profile',
+      });
+    }
+  };
+  

@@ -3,7 +3,7 @@ import { db } from "../libs/db.js";
 
 export const getUserStreaks = async (req, res) => {
     try {
-        const userId =req.user.id;
+        const userId = req.user.id;
 
         const result = await db.$queryRawUnsafe(`
             WITH submission_days AS (
@@ -40,7 +40,7 @@ export const getUserStreaks = async (req, res) => {
             longestStreak: Number(raw.longestStreak),
             currentStreak: Number(raw.currentStreak),
         };
-        
+
         res.status(200).json({
             success: true,
             message: "Streaks fetched successfully",
@@ -53,7 +53,7 @@ export const getUserStreaks = async (req, res) => {
 
 
 
-    
+
 };
 
 
@@ -85,30 +85,62 @@ export const getLast30DaysSubmissionDates = async (req, res) => {
     }
 };
 
+
+
+export const getCurrentMonthSubmissionDates = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const result = await db.$queryRawUnsafe(`
+        SELECT DISTINCT TO_CHAR(DATE("createdAt"), 'YYYY-MM-DD') AS date
+        FROM "Submission"
+        WHERE "userId" = $1
+          AND "createdAt" >= DATE_TRUNC('month', CURRENT_DATE)
+          AND "createdAt" < DATE_TRUNC('month', CURRENT_DATE + INTERVAL '1 month')
+        ORDER BY date DESC;
+      `, userId);
+
+        const dates = result.map(row => row.date);
+
+        res.status(200).json({
+            success: true,
+            message: "Current month's submission dates fetched successfully",
+            data: dates,
+        });
+
+    } catch (error) {
+        console.error("Fetch Current Month Submission Dates Error:", error);
+        res.status(500).json({ error: "Failed to fetch submission dates" });
+    }
+};
+
+
+
+
 export const get5Submissions = async (req, res) => {
     try {
         const userId = req.user.id;
 
         const submissions = await db.submission.findMany({
             where: {
-              userId: userId
+                userId: userId
             },
             orderBy: {
-              createdAt: 'desc'
+                createdAt: 'desc'
             },
             take: 5,
             select: {
-              createdAt: true,
-              problem: {
-                select: {
-                  id: true,
-                  title: true,
-                  difficulty: true,
+                createdAt: true,
+                problem: {
+                    select: {
+                        id: true,
+                        title: true,
+                        difficulty: true,
+                    }
                 }
-              }
             }
-          });
-          
+        });
+
 
         res.status(200).json({
             success: true,
