@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(statusMonitor());
 app.use(morgan('combined'));
 
-
+app.use('/uploads', express.static('uploads'));
 
 const allowedOrigins = [
     "http://localhost:5173",        // for local dev

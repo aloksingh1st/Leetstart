@@ -546,30 +546,20 @@ export const forgotPassword = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
     try {
       const userId = req.user.id;
-      const { name, email, image } = req.body;
+      const { name, email } = req.body;
+      const image = req.file ? `/uploads/${req.file.filename}` : null;
   
-      // Optional: validate fields manually or with express-validator
       if (!name && !email && !image) {
-        return res.status(400).json({
-          success: false,
-          message: "No valid fields provided for update",
-        });
+        return res.status(400).json({ message: "No valid fields provided" });
       }
   
-      // Check for email conflict if email is changing
+      // Optional email uniqueness check
       if (email) {
         const emailExists = await db.user.findFirst({
-          where: {
-            email,
-            NOT: { id: userId }
-          }
+          where: { email, NOT: { id: userId } },
         });
-  
         if (emailExists) {
-          return res.status(400).json({
-            success: false,
-            message: "Email is already in use by another account",
-          });
+          return res.status(400).json({ message: "Email already in use" });
         }
       }
   
@@ -586,22 +576,18 @@ export const updateUserProfile = async (req, res) => {
           email: true,
           image: true,
           role: true,
-          createdAt: true,
-        }
+        },
       });
   
-      return res.status(200).json({
+      res.status(200).json({
         success: true,
         message: "Profile updated successfully",
         user: updatedUser,
       });
   
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      res.status(500).json({
-        success: false,
-        message: "Something went wrong while updating profile",
-      });
+    } catch (err) {
+      console.error("Update profile error:", err);
+      res.status(500).json({ message: "Server error" });
     }
   };
   

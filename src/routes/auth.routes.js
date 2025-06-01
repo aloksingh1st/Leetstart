@@ -1,8 +1,10 @@
 import express from "express";
-import { checkMe, dummyMail, login, logout, register, resendVerificationMail, verifyUser } from "../controllers/auth.controller.js";
+import { checkMe, dummyMail, login, logout, register, resendVerificationMail, updateUserProfile, verifyUser } from "../controllers/auth.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { validateLogin } from "../middleware/validators/loginValidator.js";
 import { registerValidator } from "../middleware/validators/registerValidator.js";
+
+import { upload } from '../utils/multer.js';
 
 
 
@@ -14,6 +16,12 @@ authRoutes.get("/verify_token/:token", verifyUser);
 authRoutes.post("/login", validateLogin, login);
 authRoutes.get('/checkme', authMiddleware, checkMe);
 authRoutes.post('/resendVerificationMail', resendVerificationMail);
+authRoutes.patch(
+    '/profile',
+    authMiddleware,
+    upload.single('image'), // `image` is the field name
+    updateUserProfile
+  );
 authRoutes.post('/logout', logout);
 authRoutes.get('/dummyMail', dummyMail);
 
