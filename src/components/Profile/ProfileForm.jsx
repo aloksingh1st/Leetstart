@@ -62,7 +62,7 @@ const ProfileForm = ({ name, email, onNameChange, onEmailChange }) => {
         </div>
       </div>
 
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-5">
+      {/* <div className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-5">
         <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Change Password</h3>
         <div className="space-y-4">
           <div>
@@ -151,7 +151,7 @@ const ProfileForm = ({ name, email, onNameChange, onEmailChange }) => {
             <p className="text-sm text-red-600 dark:text-red-400">{passwordError}</p>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

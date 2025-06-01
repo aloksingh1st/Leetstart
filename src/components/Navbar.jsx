@@ -39,7 +39,7 @@ const Navbar = () => {
                 <div className="dropdown dropdown-end lg:mx-[35px]">
                     <div tabIndex={0} role="button" className="avatar">
                         <div className="w-8 rounded-full ring-2 ring-primary ring-offset-base-100 ring-offset-2">
-                            <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                            <img src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_items_boosted&w=740" />
                         </div>
                     </div>
 

@@ -4,6 +4,9 @@ import { Calendar, Clock } from 'lucide-react';
 const RecentActivity = ({ recentProblems }) => {
   // Format the date to a more readable format
   const formatDate = (dateString) => {
+
+
+    console.log(dateString);
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('en-US', {
       month: 'short',
@@ -36,21 +39,21 @@ const RecentActivity = ({ recentProblems }) => {
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
             {recentProblems.map((problem) => (
               <li 
-                key={problem.id}
+                key={problem.problem.id}
                 className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-150"
               >
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                      {problem.title}
+                      {problem.problem.title}
                     </h4>
                     <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
                       <Clock className="w-3 h-3 mr-1" />
-                      <span>{formatDate(problem.solvedAt)}</span>
+                      <span>{problem?.solvedAt && formatDate(problem?.solvedAt)}</span>
                     </div>
                   </div>
                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${getDifficultyColor(problem.difficulty)}`}>
-                    {problem.difficulty}
+                    {problem.problem.difficulty}
                   </span>
                 </div>
               </li>
