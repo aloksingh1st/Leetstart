@@ -28,7 +28,10 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth) {
+  const isRootPath = location.pathname === '/';
+
+  // Show loader only if not on "/" and auth is being checked
+  if (isCheckingAuth && !isRootPath) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="size-10 animate-spin" />
