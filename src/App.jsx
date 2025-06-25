@@ -49,13 +49,13 @@ function App() {
         <Route path="/signup" element={!authUser ? <Register /> : <Navigate to="/problems" />} />
         <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/problems" />} />
         <Route path="/" element={<AnimatedPage><Landing2 /></AnimatedPage>} />
+          <Route path="createProblem" element={<AnimatedPage><CreateProblemPage /></AnimatedPage>} />
 
         {/* Protected Routes */}
         <Route path="/" element={authUser ? <Layout /> : <Navigate to="/login" />}>
           <Route path="problems" element={<AnimatedPage><ProblemList /></AnimatedPage>} />
           <Route path="profile" element={<AnimatedPage><ProfilePage /></AnimatedPage>} />
           <Route path="problem/:id" element={<AnimatedPage><ProblemDetailPage /></AnimatedPage>} />
-          <Route path="createProblem" element={<AnimatedPage><CreateProblemPage /></AnimatedPage>} />
         </Route>
 
         {/* Catch-All Route */}
