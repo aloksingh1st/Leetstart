@@ -1,124 +1,107 @@
-🧠 LeetStart
+# 🧠 LeetStart
 
-LeetStart is a full-stack coding platform built to understand how LeetCode works behind the scenes — from frontend UI to code execution and authentication flow.Built entirely from scratch using React, Express, Judge0, and TailwindCSS.
+**LeetStart** is a full-stack coding platform built to understand how **LeetCode** works behind the scenes — from frontend UI to code execution and authentication flow.  
+Developed entirely from scratch using **React**, **Express**, **Judge0**, and **TailwindCSS**.
 
-⚙️ Tech Stack
+---
 
-Layer
+## ⚙️ Tech Stack
 
-Technology
+| Layer | Technology |
+| :-- | :-- |
+| **Frontend** | React, Vite, Zustand, TailwindCSS |
+| **Backend** | Node.js, Express.js, Swagger |
+| **Code Execution** | Judge0 REST API |
+| **Authentication** | JWT, bcrypt, OAuth (Google/GitHub in progress) |
+| **Database** | PostgreSQL |
+| **Deployment** | Vercel (Frontend), Render / AWS EC2 (Backend) |
 
-Frontend
+---
 
-React, Vite, Zustand, TailwindCSS
+## 🎯 Core Features
 
-Backend
+- 💻 **Real-time Code Execution** — powered by Judge0 REST API  
+- 🔐 **User Authentication** — JWT-based; Google/GitHub OAuth coming soon  
+- 📚 **Problem Management System** — create, fetch, and solve coding problems  
+- ⚙️ **Microservice-Ready Architecture** — separate Auth and Platform services  
+- 🥩 **Frontend–Backend Decoupling** — independent deployment pipelines  
+- 📈 **Developer-Friendly API Docs** — auto-generated via Swagger  
 
-Node.js, Express.js, Swagger
+---
 
-Code Execution
-
-Judge0 API
-
-Auth
-
-JWT, bcrypt, OAuth (Google/GitHub planned)
-
-Database
-
-Postgres
-
-Deployment
-
-Vercel (frontend), Render/EC2 (backend)
-
-🎯 Core Features
-
-💻 Real-time code execution via Judge0 REST API
-
-🔐 User authentication (JWT-based; OAuth in progress)
-
-📚 Problem management system (create, fetch, solve problems)
-
-⚙️ Microservice-ready architecture (auth + platform separation)
-
-🥩 Frontend–Backend decoupling for independent deployments
-
-📈 Developer-friendly API docs using Swagger
-
-🏧 Project Structure
+## 🏗️ Project Structure
 
 leetstart/
-├── frontend/   # React + Tailwind client
-└── backend/    # Express + Judge0 + database server
+├── frontend/ # React + TailwindCSS client
+└── backend/ # Express + Judge0 + PostgreSQL server
 
-🚀 Getting Started
 
-1️⃣ Clone the repository
 
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the Repository
+```bash
 git clone https://github.com/aloksingh1st/leetstart.git
 cd leetstart
-
-2️⃣ Setup Backend
 
 cd backend
 npm install
 cp .env.example .env
 npm run dev
 
-Make sure you’ve configured your .env file with MongoDB URI, JWT secret, and Judge0 API credentials.
+⚠️ Make sure your .env is configured with PostgreSQL URI, JWT secret, and Judge0 API credentials.
 
-3️⃣ Setup Frontend
 
 cd ../frontend
 npm install
 npm run dev
 
-🤉 Environment Variables (Backend)
 
-Variable
 
-Description
-
-DATABASE_URL
-
-Postress connection string
-
-DATABASE_URL
-
-Secret key for JWT auth
-
-JUDGE0_URL
-
-Base URL for Judge0 API
-
-PORT
-
-Backend server port
-
+🧩 Environment Variables (Backend)
+Variable	Description
+DATABASE_URL	PostgreSQL connection string
+JWT_SECRET	Secret key for JWT authentication
+JUDGE0_URL	Base URL for Judge0 API
+PORT	Backend server port
 
 
 🥪 Development Philosophy
 
-LeetStart isn’t just another clone — it’s a technical exploration of:
+LeetStart isn’t just another LeetCode clone — it’s a technical exploration into:
 
-how online judges manage code execution safely,
+how online judges safely manage remote code execution
 
-how frontend and backend communicate asynchronously,
+how frontend–backend communication happens asynchronously
 
-how microservices can stay modular but connected.
+how microservices can stay modular yet connected
 
-This project evolves as I refine my understanding of system design, auth services, and developer tooling.
+This project evolves as I deepen my understanding of system design, authentication flows, and developer tooling.
 
 🧰 Future Plans
 
+✅ Complete Google & GitHub OAuth integration
 
+✅ Add discussion threads for each problem
 
-🧑‍💻 Author
+🚧 Implement submission history & test case analytics
 
-Alok SinghFull-Stack Developer | Building Entrix & LeetStartLinkedIn • Twitter • Portfolio
+🚧 Introduce problem difficulty tagging and leaderboard
+
+🚀 Build SDK for client-side code execution integration
+
+👨‍💻 Author
+
+Alok Singh
+Full-Stack Developer | Building Entrix
+ & LeetStart
+
+🔗 LinkedIn
+ • Twitter
+ • Portfolio
 
 📜 License
 
 MIT License © 2025 Alok Singh
-
